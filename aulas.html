@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aulas — core.php</title>
+<meta name="description" content="Trilha de 20 aulas de PHP para iniciantes, organizadas por dia de estudo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="dot">&lt;</span>core<span class="accent">.php</span><span class="dot">&gt;</span></a>
+  <nav class="header-nav">
+    <a class="nav-link active" href="aulas.html">Aulas</a>
+    <div class="header-stats">
+      <span class="stat-badge xp" title="Experiência acumulada"><span class="sigil">$xp =</span> <span class="value" id="stat-xp">0</span>;</span>
+      <span class="stat-badge credits" title="Créditos de comentário no fórum"><span class="sigil">//</span> <span class="value" id="stat-credits">1</span></span>
+    </div>
+    <div class="auth-control" id="auth-control"></div>
+  </nav>
+</header>
+
+<main class="page-shell">
+  <div class="page-title-row">
+    <div class="page-title-group">
+      <h1>Aulas <span class="path-tag">/php</span></h1>
+      <span class="page-icon-badge" title="Trilha do curso">📅</span>
+    </div>
+    <span id="progress-text" class="progress-summary"></span>
+  </div>
+  <div class="progress-bar-track"><div id="progress-fill" class="progress-bar-fill" style="width:0%"></div></div>
+
+  <div id="continue-card" class="continue-card"></div>
+
+  <div id="lesson-days"></div>
+</main>
+
+<footer class="site-footer">core.php — 20 aulas, 8 dias de estudo, no seu ritmo.</footer>
+
+<script src="js/data.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/content.js"></script>
+<script src="js/main.js"></script>
+<script>
+  initLessonsPage();
+  renderProgressSummary();
+  renderHeaderStats();
+  renderContinueCard();
+  renderAuthControl();
+</script>
+</body>
+</html>

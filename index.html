@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>core.php — aprenda PHP do zero</title>
+<meta name="description" content="Aprenda PHP do zero, em 20 aulas práticas, e comece a programar de verdade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="landing">
+  <header class="site-header landing-header">
+    <div class="brand"><span class="dot">&lt;</span>core<span class="accent">.php</span><span class="dot">&gt;</span></div>
+    <nav class="header-nav">
+      <a class="nav-link" href="aulas.html">Sobre</a>
+      <div class="auth-control" id="auth-control"></div>
+    </nav>
+  </header>
+
+  <div class="grid-stage" aria-hidden="true">
+    <div class="grid-floor"></div>
+    <div class="grid-horizon"></div>
+    <div class="grid-vignette"></div>
+  </div>
+
+  <main class="hero">
+    <div class="terminal" role="img" aria-label="Terminal exibindo um exemplo de código PHP: echo Olá, mundo!">
+      <div class="terminal-bar">
+        <span></span><span></span><span></span>
+        <span class="terminal-title">aula01.php</span>
+      </div>
+      <div class="terminal-body">
+        <div class="line"><span class="tag">&lt;?php</span></div>
+        <div class="line">&nbsp;&nbsp;<span class="fn">echo</span> <span id="typed-output"></span><span class="cursor">_</span></div>
+        <div class="line"><span class="tag">?&gt;</span></div>
+      </div>
+    </div>
+
+    <h1>Aprenda PHP do zero e comece a <span class="accent">programar de verdade</span>.</h1>
+    <p class="subhead">20 aulas objetivas, com exemplos que rodam de verdade, para você sair do zero e escrever seu primeiro sistema em PHP.</p>
+
+    <a class="cta-btn" id="cta-btn" href="aulas.html">Entrar no curso →</a>
+  </main>
+
+  <footer class="site-footer">core.php — construído para quem nunca programou.</footer>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/content.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // O progresso é por conta (ver progress.js), então o CTA precisa ser
+  // recalculado sempre que a conta ativa mudar (login/cadastro/logout), não
+  // só na carga inicial da página.
+  function adaptCta() {
+    const state = getState();
+    const cta = document.getElementById('cta-btn');
+
+    if (state.completedLessons.length === 0) {
+      cta.textContent = 'Entrar no curso →';
+      cta.href = 'aulas.html';
+      return;
+    }
+
+    const completed = new Set(state.completedLessons);
+    const next = LESSONS.find((l) => !completed.has(l.id));
+
+    if (next) {
+      cta.textContent = 'Continuar de onde parei →';
+      cta.href = `aula.html?id=${next.id}`;
+    } else {
+      cta.textContent = 'Revisar o curso →';
+      cta.href = 'aulas.html';
+    }
+  }
+
+  renderAuthControl();
+  adaptCta();
+</script>
+<script>
+  const text = '"Olá, mundo!";';
+  const el = document.getElementById('typed-output');
+  let i = 0;
+  function type() {
+    if (i <= text.length) {
+      el.textContent = text.slice(0, i);
+      i++;
+      setTimeout(type, 70);
+    } else {
+      setTimeout(() => { i = 0; type(); }, 2200);
+    }
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = text;
+  } else {
+    type();
+  }
+</script>
+</body>
+</html>
