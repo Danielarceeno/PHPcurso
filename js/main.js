@@ -305,12 +305,32 @@ function getLessonIdFromUrl() {
   return Number(params.get('id')) || 1;
 }
 
+/**
+ * Links de compartilhamento do Google Drive (.../file/d/ID/view?... ou
+ * .../open?id=ID) não funcionam como `src` de <video> — precisam ser
+ * reescritos para a URL de embed (.../file/d/ID/preview) e exibidos num
+ * <iframe>. Retorna null se a URL não for do Drive (vídeo direto normal).
+ */
+function getDriveEmbedUrl(videoUrl) {
+  if (!/drive\.google\.com/.test(videoUrl)) return null;
+  const match = videoUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || videoUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (!match) return null;
+  return `https://drive.google.com/file/d/${match[1]}/preview`;
+}
+
 function renderVideoPlaceholder(videoUrl) {
   if (!videoUrl) {
     return `
     <div class="video-placeholder">
       <span class="play-icon" aria-hidden="true">▶</span>
       <span>Vídeo em breve</span>
+    </div>`;
+  }
+  const driveEmbedUrl = getDriveEmbedUrl(videoUrl);
+  if (driveEmbedUrl) {
+    return `
+    <div class="video-placeholder video-embed">
+      <iframe src="${escapeHtml(driveEmbedUrl)}" allow="autoplay" allowfullscreen loading="lazy"></iframe>
     </div>`;
   }
   return `

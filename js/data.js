@@ -22,7 +22,7 @@ por trás de sites como WordPress, Wikipedia e boa parte da internet.`,
 echo "Olá, mundo! Este é o meu primeiro código em PHP.";
 `,
     challenge: 'Troque o texto do echo para uma frase se apresentando, com seu nome.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1r2NLbr93jvCMq_emU13Ux93A2pVXnn6s/view?usp=sharing',
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ echo "PHP está funcionando na sua máquina!" . PHP_EOL;
 echo "Versão do PHP em uso: " . phpversion();
 `,
     challenge: 'Rode "php -v" no seu terminal e confira qual versão do PHP está instalada.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/11f7sEAadPu4_VrcZmmFtbODxv3nBa0rd/view?usp=sharing',
   },
   {
     id: 3,
@@ -66,7 +66,7 @@ echo "\\n"; // \\n cria uma quebra de linha
 echo "Esta é a segunda linha.";
 `,
     challenge: 'Adicione um comentário explicando o que a segunda linha de echo faz.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1x-R5BIz2zIekaVlJWZpV0xgSJyDPbEff/view?usp=sharing',
   },
 
   // ---------------- DIA 2 ----------------
@@ -91,7 +91,7 @@ $idade = $idade + 1;
 echo "Ano que vem: " . $idade . PHP_EOL;
 `,
     challenge: 'Crie uma variável $cidade com o nome da sua cidade e exiba-a com echo.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1Mc-lfn3yt3Jz7TaI_JhlcxSbI3Hl0Iji/view?usp=sharing',
   },
   {
     id: 5,
@@ -117,7 +117,7 @@ echo gettype($ativo) . PHP_EOL;
 echo gettype($lista) . PHP_EOL;
 `,
     challenge: 'Crie uma variável com o seu tipo favorito e imprima o resultado de gettype() dela.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1_ZWe5EOoTK-DPJMkQFCSUnfaGS5MnSYp/view?usp=sharing',
   },
   {
     id: 6,
@@ -139,7 +139,7 @@ echo "Versão: " . VERSAO . PHP_EOL;
 // Tentar redefinir uma constante gera erro — por isso ela é "constante".
 `,
     challenge: 'Crie uma constante MAX_ALUNOS com um número e exiba-a.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1ILnumid61KfOgruVOBWTl1qXXxl_8lnq/view?usp=sharing',
   },
 
   // ---------------- DIA 3 ----------------
