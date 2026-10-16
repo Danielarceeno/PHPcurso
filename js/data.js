@@ -122,35 +122,15 @@ echo gettype($lista) . PHP_EOL;
   {
     id: 6,
     day: 2,
-    title: 'Constantes',
-    summary: 'Valores que não podem mudar.',
-    explanation: `Uma constante é parecida com uma variável, mas o seu valor não pode
-ser alterado depois de definido. Em PHP, definimos constantes com a função
-"define()" ou com a palavra-chave "const". Por convenção, o nome é escrito em
-letras maiúsculas.`,
-    code: `<?php
-
-define('NOME_DO_SITE', 'core.php');
-const VERSAO = '1.0';
-
-echo NOME_DO_SITE . PHP_EOL;
-echo "Versão: " . VERSAO . PHP_EOL;
-
-// Tentar redefinir uma constante gera erro — por isso ela é "constante".
-`,
-    challenge: 'Crie uma constante MAX_ALUNOS com um número e exiba-a.',
-    video_url: 'https://drive.google.com/file/d/1ILnumid61KfOgruVOBWTl1qXXxl_8lnq/view?usp=sharing',
-  },
-
-  // ---------------- DIA 3 ----------------
-  {
-    id: 7,
-    day: 3,
-    title: 'Operadores matemáticos',
-    summary: 'Soma, subtração, multiplicação, divisão e mais.',
+    title: 'Operadores matemáticos e de atribuição',
+    summary: 'Soma, subtração, multiplicação, divisão e formas curtas de atualizar variáveis.',
     explanation: `PHP tem os operadores matemáticos básicos: "+" (soma), "-"
 (subtração), "*" (multiplicação), "/" (divisão), "%" (resto da divisão) e "**"
-(potência). Eles funcionam como na matemática que você já conhece.`,
+(potência). Já os operadores de atribuição guardam um valor numa variável — o
+mais comum é "=", mas existem versões curtas que fazem uma conta e já
+atualizam a variável no mesmo passo: "+=" soma e atribui, "-=" subtrai e
+atribui, "*=" multiplica e atribui, "/=" divide e atribui. "$a += 5" é o
+mesmo que escrever "$a = $a + 5", só que mais curto.`,
     code: `<?php
 
 $a = 10;
@@ -162,9 +142,48 @@ echo "Multiplicação: " . ($a * $b) . PHP_EOL;
 echo "Divisão: " . ($a / $b) . PHP_EOL;
 echo "Resto: " . ($a % $b) . PHP_EOL;
 echo "Potência: " . ($a ** 2) . PHP_EOL;
+
+// Operadores de atribuição: fazem a conta e já guardam o resultado
+$saldo = 100;
+$saldo += 50; // o mesmo que $saldo = $saldo + 50;
+echo "Depois do depósito: " . $saldo . PHP_EOL;
+
+$saldo -= 30; // o mesmo que $saldo = $saldo - 30;
+echo "Depois do saque: " . $saldo . PHP_EOL;
 `,
-    challenge: 'Calcule a área de um retângulo de base 5 e altura 8 usando o operador *.',
+    challenge: 'Calcule a área de um retângulo de base 5 e altura 8 usando o operador *, depois use += para somar 10 ao resultado.',
     video_url: null,
+  },
+
+  // ---------------- DIA 3 ----------------
+  {
+    id: 7,
+    day: 3,
+    title: 'Operadores matemáticos e de atribuição (continuação)',
+    summary: 'Mais exemplos praticando os operadores da aula anterior.',
+    explanation: `Esta aula é uma continuação direta da aula anterior: em vez de
+conteúdo novo, é hora de praticar mais os operadores matemáticos e de
+atribuição com exemplos aplicados. Assista ao material complementar
+(link abaixo) para ver outras situações do dia a dia resolvidas com esses
+operadores antes de seguir para os operadores de comparação.`,
+    code: `<?php
+
+// Praticando operadores de atribuição em sequência
+$pontuacao = 0;
+
+$pontuacao += 10; // ganhou 10 pontos
+$pontuacao += 25; // ganhou mais 25 pontos
+$pontuacao -= 5;  // perdeu 5 pontos
+$pontuacao *= 2;  // pontuação em dobro (bônus)
+
+echo "Pontuação final: " . $pontuacao . PHP_EOL;
+
+$preco = 200;
+$preco /= 4; // dividido em 4 parcelas
+echo "Valor de cada parcela: " . $preco . PHP_EOL;
+`,
+    challenge: 'Simule o carrinho de uma loja: comece com $total = 0 e use += para somar o preço de 3 produtos diferentes.',
+    video_url: 'https://drive.google.com/file/d/14Q-e8Tk8HBlwW63i3XSveUVmhfY_j1j-/view?usp=sharing',
   },
   {
     id: 8,
@@ -186,7 +205,7 @@ var_dump($idade <= 18);     // true
 var_dump($idade != 20);     // true
 `,
     challenge: 'Compare duas variáveis com === e explique em um comentário por que o resultado deu true ou false.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/157DQBmesGCg-MGVuiL4YOS1fkuLr5aWH/view?usp=sharing',
   },
   {
     id: 9,
@@ -210,7 +229,7 @@ echo "Está de folga? " . ($feriadoOuFimDeSemana ? "sim" : "não") . PHP_EOL;
 echo "Negação: " . (!$temIngresso ? "sem ingresso" : "com ingresso") . PHP_EOL;
 `,
     challenge: 'Crie uma condição que só é verdadeira se a pessoa for maior de idade E tiver carteira de motorista.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1uAMPMD6LDwW4FO0XyupeQpg1hrv2ZLcL/view?usp=sharing',
   },
 
   // ---------------- DIA 4 ----------------
@@ -235,7 +254,7 @@ if ($nota >= 7) {
 }
 `,
     challenge: 'Escreva um if/else que diga se um número é par ou ímpar (dica: use o operador %).',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/14hDgqcTeST0RZXqnX51D5kbn4Ia8RTkC/view?usp=sharing',
   },
   {
     id: 11,

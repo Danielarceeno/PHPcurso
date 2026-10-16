@@ -318,12 +318,30 @@ function getDriveEmbedUrl(videoUrl) {
   return `https://drive.google.com/file/d/${match[1]}/preview`;
 }
 
+/**
+ * Links de pasta do Google Drive (.../drive/folders/ID) não são um arquivo de
+ * vídeo nem têm uma URL de embed — tentar tocá-los como vídeo (seja em
+ * <iframe> seja em <video src>) só reproduz o bug de player quebrado.
+ * Nesse caso mostramos um link para abrir a pasta numa aba nova, em vez de
+ * fingir que é um player.
+ */
+function isDriveFolderUrl(videoUrl) {
+  return /drive\.google\.com\/drive\/folders\//.test(videoUrl);
+}
+
 function renderVideoPlaceholder(videoUrl) {
   if (!videoUrl) {
     return `
     <div class="video-placeholder">
       <span class="play-icon" aria-hidden="true">▶</span>
       <span>Vídeo em breve</span>
+    </div>`;
+  }
+  if (isDriveFolderUrl(videoUrl)) {
+    return `
+    <div class="video-placeholder video-link">
+      <span class="play-icon" aria-hidden="true">▶</span>
+      <a href="${escapeHtml(videoUrl)}" target="_blank" rel="noopener noreferrer">Abrir material da aula no Google Drive ↗</a>
     </div>`;
   }
   const driveEmbedUrl = getDriveEmbedUrl(videoUrl);
@@ -411,7 +429,6 @@ function renderWelcomePost(lesson) {
   const progress = getDayProgress(lesson.day);
   const commentCount = getComments(lesson.id).length;
   const isFirst = lesson.id === 1;
-  const priorLessons = LESSONS.filter((l) => l.id < lesson.id);
 
   const title = isFirst ? 'Bem-vindo(a)!' : `Sobre esta aula: ${escapeHtml(lesson.title)}`;
 
@@ -431,12 +448,6 @@ function renderWelcomePost(lesson) {
          <li>Marcar a aula como <strong>concluída</strong> e coletar mais <strong>+10 XP</strong></li>
        </ol>`;
 
-  const detailsBody =
-    priorLessons.length === 0
-      ? `<p>Como esta é a primeira aula, ainda não há nada para revisar — a lista vai crescendo a cada dia de estudo.</p>`
-      : `<p>Até aqui, o curso já passou por:</p>
-         <ul>${priorLessons.map((l) => `<li>${escapeHtml(l.title)}</li>`).join('')}</ul>`;
-
   return `
   <div class="welcome-post">
     <div class="vote-col">
@@ -454,11 +465,6 @@ function renderWelcomePost(lesson) {
       <h2>${title}</h2>
 
       <div class="post-body">${bodyHtml}</div>
-
-      <details class="post-details">
-        <summary>Clique aqui para visualizar quais Tecnologias e Assuntos já foram abordados no curso até o momento 💪💪💪</summary>
-        <div class="details-body">${detailsBody}</div>
-      </details>
     </div>
   </div>`;
 }

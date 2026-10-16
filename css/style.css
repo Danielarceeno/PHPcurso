@@ -774,38 +774,6 @@ dialog#login-modal::before {
 .welcome-post .post-body ol { margin: 0 0 18px; padding-left: 22px; }
 .welcome-post .post-body ol li { margin-bottom: 6px; }
 
-.post-details {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px 16px;
-  background: var(--bg-elevated);
-}
-.post-details summary {
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--text);
-  list-style: none;
-}
-.post-details summary::-webkit-details-marker { display: none; }
-.post-details summary::before {
-  content: '▶';
-  display: inline-block;
-  margin-right: 8px;
-  font-size: 0.7em;
-  color: var(--accent-purple);
-  transition: transform 0.15s ease;
-}
-.post-details[open] summary::before { transform: rotate(90deg); }
-.post-details .details-body {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-.post-details .details-body ul { margin: 0; padding-left: 20px; }
-.post-details .details-body li { margin-bottom: 4px; }
-
 .lesson-breadcrumb {
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -864,8 +832,36 @@ pre.code-block {
   display: flex; align-items: center; justify-content: center;
 }
 .video-placeholder video { width: 100%; height: 100%; border-radius: var(--radius); }
-.video-placeholder.video-embed { padding: 0; }
-.video-placeholder.video-embed iframe { width: 100%; height: 100%; border: 0; border-radius: var(--radius); }
+.video-placeholder.video-embed {
+  padding: 0;
+  overflow: hidden;
+  container-type: inline-size;
+}
+/*
+ * O player de preview do Google Drive não redesenha seu layout interno para
+ * caber em iframes estreitos (ex.: celular) — ele sempre assume um canvas
+ * largo e "vaza" conteúdo para fora da caixa. Correção: renderizamos o
+ * iframe no tamanho "de desktop" (960x540) e encolhemos ele visualmente com
+ * `transform: scale()` até caber na largura real do container (via unidade
+ * `cqw`, relativa à largura do próprio elemento pai, não da viewport). O
+ * `transform` não afeta o espaço ocupado no layout, por isso o container
+ * precisa do `overflow: hidden` acima para recortar a sobra do iframe.
+ */
+.video-placeholder.video-embed iframe {
+  display: block;
+  width: 960px;
+  height: 540px;
+  border: 0;
+  border-radius: var(--radius);
+  transform: scale(calc(100cqw / 960));
+  transform-origin: top left;
+}
+
+.video-placeholder.video-link a {
+  color: var(--accent-purple);
+  font-weight: 600;
+  text-decoration: underline;
+}
 
 .lesson-actions {
   display: flex;

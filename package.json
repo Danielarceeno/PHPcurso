@@ -1,0 +1,8 @@
+{
+  "name": "core-php",
+  "private": true,
+  "description": "core.php — plataforma de aulas de PHP (site estático). package.json existe só para rodar os testes automatizados em tests/.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
