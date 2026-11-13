@@ -1,5 +1,28 @@
 # QA_CHECKLIST.md — core.php
 
+> **Registro histórico.** Este checklist descreve o aceite da **primeira versão**
+> e não é mantido a cada mudança — para o estado atual do projeto, veja o
+> `README.md` e a seção 10 do `TEAM_NOTES.md`. O que mudou desde então e torna
+> alguns itens abaixo desatualizados:
+>
+> - **Vídeos:** as aulas 1 a 16 já têm vídeo (player embutido do Google Drive);
+>   só as aulas 17 a 20 ainda mostram "Vídeo em breve". Os itens que dizem que
+>   todas as 20 têm `video_url: null` valiam só na v1.
+> - **Login:** hoje existe login simulado com contas. Marcar aula como
+>   concluída e comentar exigem estar logado, e o progresso/XP é por conta —
+>   os testes abaixo foram feitos antes disso, sem login.
+> - **Header da landing:** o link "Sobre" foi renomeado para "Aulas" e o header
+>   ganhou o botão "Entrar".
+> - **Lista de aulas:** virou uma trilha com círculos (não mais cards com
+>   checkbox); o círculo é um `<button>` nativo, sem listener de teclado próprio.
+> - **Comentários:** o autor pode editar e excluir o próprio comentário; o
+>   admin pode excluir qualquer um.
+> - **Mobile:** os dois itens em aberto de responsividade foram verificados
+>   depois em 390px e 320px (player de vídeo, modal de login e header).
+> - **Testes automatizados:** hoje existem (`npm test`), cobrindo boa parte do
+>   que aqui foi verificado só por revisão de código.
+> - **Ainda pendente:** executar os 20 exemplos em um PHP 8 real.
+
 Checklist de aceite executado pelo QA antes de considerar a v1 "pronta".
 Testes manuais feitos com servidor local (`python -m http.server`) + navegador
 real (Chrome), mais revisão de código para os itens marcados como "revisão".

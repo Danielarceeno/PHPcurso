@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Marca própria do core.php: os "< >" do logo do header com um ponto roxo no meio. -->
+  <rect width="64" height="64" rx="14" fill="#0d1428"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#1c2a4a" stroke-width="3"/>
+  <g fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="23,19 11,32 23,45"/>
+    <polyline points="41,19 53,32 41,45"/>
+  </g>
+  <circle cx="32" cy="32" r="5.5" fill="#8892e0"/>
+</svg>

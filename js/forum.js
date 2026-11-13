@@ -87,11 +87,65 @@ function postComment(lessonId, text) {
 }
 
 /**
- * Remove um comentário (ação de admin). Não mexe em forumCredits — o crédito
- * já foi devolvido no momento da postagem, então apagar um comentário não
- * deve puni-lo nem beneficiá-lo de novo.
+ * O comentário é "de quem está logado" quando o nome do autor bate com o nome
+ * da conta da sessão (sem diferenciar maiúsculas, como auth.js faz com
+ * contas). Comentários antigos sem `authorName` não pertencem a ninguém.
+ */
+function isCommentAuthor(comment) {
+  const session = getSession();
+  if (!session || !comment || !comment.authorName) return false;
+  return comment.authorName.trim().toLowerCase() === session.name.trim().toLowerCase();
+}
+
+/** Só o próprio autor edita o texto — nem o admin reescreve comentário alheio. */
+function canEditComment(comment) {
+  return isCommentAuthor(comment);
+}
+
+/** O autor exclui o próprio comentário; o admin exclui qualquer um (moderação). */
+function canDeleteComment(comment) {
+  return isCommentAuthor(comment) || isAdmin();
+}
+
+/**
+ * Remove um comentário (o próprio autor ou o admin). Não mexe em
+ * forumCredits — o crédito já foi devolvido no momento da postagem, então
+ * apagar um comentário não deve puni-lo nem beneficiá-lo de novo.
+ *
+ * @returns {{ok: boolean, error?: string}}
  */
 function deleteComment(commentId) {
-  const comments = getSharedComments().filter((c) => c.id !== commentId);
-  saveSharedComments(comments);
+  const comments = getSharedComments();
+  const target = comments.find((c) => c.id === commentId);
+  if (!target) return { ok: false, error: 'Comentário não encontrado.' };
+  if (!canDeleteComment(target)) {
+    return { ok: false, error: 'Você só pode excluir os seus próprios comentários.' };
+  }
+  saveSharedComments(comments.filter((c) => c.id !== commentId));
+  return { ok: true };
+}
+
+/**
+ * Troca o texto de um comentário (só o próprio autor). Registra `editedAt`
+ * para a UI poder sinalizar que o comentário foi editado.
+ *
+ * @returns {{ok: boolean, error?: string}}
+ */
+function editComment(commentId, text) {
+  const trimmed = (text || '').trim();
+  if (!trimmed) return { ok: false, error: 'Escreva algo antes de salvar.' };
+
+  const comments = getSharedComments();
+  const target = comments.find((c) => c.id === commentId);
+  if (!target) return { ok: false, error: 'Comentário não encontrado.' };
+  if (!canEditComment(target)) {
+    return { ok: false, error: 'Você só pode editar os seus próprios comentários.' };
+  }
+
+  if (target.text !== trimmed) {
+    target.text = trimmed;
+    target.editedAt = new Date().toISOString();
+    saveSharedComments(comments);
+  }
+  return { ok: true };
 }

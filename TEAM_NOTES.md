@@ -3,6 +3,79 @@
 Registro das decisões do "time" simulado antes e durante a construção da plataforma.
 Cada seção representa o papel assumido e o que foi decidido/entregue.
 
+> **Como ler este arquivo.** É um **diário de decisões**, não uma descrição do
+> estado atual: as seções numeradas mais altas são as mais recentes e valem
+> sobre as anteriores. As seções antigas foram mantidas como estavam na época
+> e contêm coisas que **não existem mais** — as principais:
+>
+> - a chave única `corephp:state` (hoje `corephp:progress:<conta>`,
+>   `corephp:comments`, `corephp:users`, `corephp:session` e
+>   `corephp:contentOverrides`);
+> - as abas "Aluno"/"Administrador" do modal e a função `loginAsAdmin()`
+>   (seção 5.4) — substituídas pelo painel único da seção 5.5;
+> - a seção recolhível e o aviso "ATENÇÃO" do post de cada aula (5.2/5.3);
+> - "streak", busca no header, cards de aula com hover e o cursor piscante no
+>   título da lista (seções 1 e 2) — planejados ou removidos, não estão no código;
+> - `video_url: null` em todas as aulas (as aulas 1 a 16 já têm vídeo);
+> - as contagens de linhas citadas na seção 6.
+>
+> Para o estado atual, veja o `README.md` e a seção 10 abaixo.
+
+## 10. Segunda auditoria, comentários do próprio autor e limpeza
+
+**Bugs corrigidos (todos reproduzidos em navegador headless antes e medidos depois):**
+
+- **Player do Drive no celular:** `transform: scale(calc(100cqw / 960))` é CSS
+  inválido (`scale()` exige número puro, e a conta resulta em comprimento) — a
+  regra era descartada e o vídeo ficava em 960px, cortado. Trocado por
+  `scale(tan(atan2(100cqw, 960px)))`, e o container do embed virou
+  `display: block` (como item flex o iframe era encolhido e deslocado).
+- **Modal de login jogava a página para o topo:** `position: relative` no
+  `<dialog>` fazia o modal virar `absolute`, preso ao topo do documento.
+  Removido — vale o `fixed` padrão do navegador.
+- **Scroll horizontal no celular quando logado:** o header não cabia em uma
+  linha; até 720px ele agora quebra em linhas.
+- **Cache:** `style.css` não tinha `?v=`. Regra desde então: mudou qualquer
+  arquivo de `js/` ou `css/`, sobe o `?v=N` nos três HTML.
+
+**Comentários — o autor edita e exclui o próprio (pedido do usuário):**
+
+- Regra na camada de dados (`js/forum.js`), não só na UI: `deleteComment` e
+  `editComment` checam a permissão e devolvem `{ok, error}`.
+  - **Autor** (nome do comentário = nome da conta logada, sem diferenciar
+    maiúsculas): edita e exclui o próprio comentário.
+  - **Admin:** exclui qualquer comentário (moderação), mas **não edita** o
+    texto de outra pessoa — reescrever a fala de alguém não é moderação.
+  - Comentários antigos sem `authorName` não têm dono: só o admin exclui.
+- Comentário editado ganha `editedAt` e aparece com "· editado" ao lado da
+  data. Excluir pede confirmação. Créditos de fórum não são afetados.
+- Mesma limitação de sempre: como o login é simulado, "dono" é só o nome da
+  conta naquele navegador — não é segurança real.
+
+**Admin — "Restaurar original":** uma edição de explicação/vídeo feita pelo
+admin ficava por cima do `data.js` para sempre naquele navegador, escondendo
+atualizações posteriores do conteúdo. O formulário de edição agora tem um
+botão "Restaurar original" (`clearContentOverride` em `js/content.js`), que só
+aparece quando aquele campo está editado.
+
+**Conteúdo:** aula 18 passou a explicar que `strlen()` conta bytes (e usa uma
+frase sem acentos); aula 20 exibe `$_POST` com `htmlspecialchars()`.
+
+**Favicon:** `assets/php.png` era um ícone de banco de imagens (asset de
+terceiros, contrariando a decisão da seção 1). Substituído por uma marca
+própria — os `< >` do logo com um ponto roxo — em `assets/favicon.svg`, com
+`assets/favicon.png` (64×64) de reserva para navegadores sem favicon SVG.
+
+**Testes automatizados** (`npm test`, sem dependências): além de progresso e
+fórum, agora cobrem `content.js`, a integridade de `data.js` (20 aulas, ids,
+dias, campos obrigatórios) e as funções puras de `main.js` (escape de HTML,
+URLs de vídeo, próxima aula, progresso do dia). O que depende de DOM (modal,
+listas, página de aula) continua sendo verificado no navegador — testar isso
+em Node exigiria adicionar uma dependência como o jsdom.
+
+**Continua em aberto:** os 20 exemplos de PHP nunca foram executados em um
+PHP real; login e permissões seguem sendo simulação (ver seção 5.4).
+
 ## 9. XP exige login
 
 Pedido do usuário: "somente quem estiver logado consegue ganhar XP". Antes,

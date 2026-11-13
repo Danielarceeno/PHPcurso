@@ -7,6 +7,11 @@
 
 const CHECK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
+// Ícones das ações de comentário: SVG em `currentColor` (e não emoji) para
+// seguirem a cor do tema — o emoji de lixeira é cinza-escuro e sumia no fundo.
+const EDIT_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>`;
+const TRASH_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>`;
+
 function renderHeaderStats() {
   const summary = getProgressSummary(LESSONS.length);
   const xpEl = document.getElementById('stat-xp');
@@ -365,36 +370,81 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-function renderComments(lessonId) {
+/**
+ * Lista os comentários da aula. Quem pode o quê vem de forum.js: o autor
+ * edita e exclui o próprio comentário; o admin exclui qualquer um.
+ * `editingId` é o id do comentário que está em modo de edição (ou null).
+ */
+function renderComments(lessonId, editingId = null) {
   const listEl = document.getElementById('comment-list');
   const comments = getComments(lessonId);
-  const admin = isAdmin();
 
   listEl.innerHTML = comments.length
     ? comments
         .slice()
         .reverse()
-        .map(
-          (c) => `
+        .map((c) => {
+          const editing = c.id === editingId;
+          const own = isCommentAuthor(c);
+          const deleteLabel = own ? 'Excluir meu comentário' : 'Excluir comentário (admin)';
+
+          const actions = editing
+            ? ''
+            : `<div class="comment-actions">
+                ${canEditComment(c) ? `<button type="button" class="comment-action-btn" data-edit-comment="${c.id}" title="Editar meu comentário" aria-label="Editar meu comentário">${EDIT_SVG}</button>` : ''}
+                ${canDeleteComment(c) ? `<button type="button" class="comment-action-btn danger" data-delete-comment="${c.id}" title="${deleteLabel}" aria-label="${deleteLabel}">${TRASH_SVG}</button>` : ''}
+              </div>`;
+
+          const body = editing
+            ? `<form class="comment-edit-form" data-edit-form="${c.id}">
+                 <label class="sr-only" for="comment-edit-text">Editar comentário</label>
+                 <textarea id="comment-edit-text" required>${escapeHtml(c.text)}</textarea>
+                 <div class="comment-edit-actions">
+                   <button type="submit" class="save-btn">Salvar</button>
+                   <button type="button" class="cancel-btn" data-cancel-edit>Cancelar</button>
+                 </div>
+               </form>`
+            : `<p>${escapeHtml(c.text)}</p>`;
+
+          return `
         <li class="comment-item">
-          ${admin ? `<button type="button" class="comment-delete-btn" data-delete-comment="${c.id}" title="Excluir comentário (admin)">🗑</button>` : ''}
+          ${actions}
           <span class="comment-author">${escapeHtml(c.authorName || 'Anônimo')}</span>
-          <p>${escapeHtml(c.text)}</p>
-          <time datetime="${c.createdAt}">${new Date(c.createdAt).toLocaleString('pt-BR')}</time>
-        </li>`
-        )
+          ${body}
+          <time datetime="${c.createdAt}">${new Date(c.createdAt).toLocaleString('pt-BR')}</time>${c.editedAt ? ' <span class="comment-edited">· editado</span>' : ''}
+        </li>`;
+        })
         .join('')
     : `<li class="comment-item">Nenhum comentário ainda. Seja o primeiro a comentar!</li>`;
 
-  if (admin) {
-    listEl.querySelectorAll('[data-delete-comment]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        deleteComment(Number(btn.dataset.deleteComment));
-        renderComments(lessonId);
-        const voteEl = document.getElementById('post-vote-count');
-        if (voteEl) voteEl.textContent = getComments(lessonId).length;
-      });
+  listEl.querySelectorAll('[data-delete-comment]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!confirm('Excluir este comentário? Essa ação não pode ser desfeita.')) return;
+      const result = deleteComment(Number(btn.dataset.deleteComment));
+      if (!result.ok) alert(result.error);
+      renderComments(lessonId);
+      const voteEl = document.getElementById('post-vote-count');
+      if (voteEl) voteEl.textContent = getComments(lessonId).length;
     });
+  });
+
+  listEl.querySelectorAll('[data-edit-comment]').forEach((btn) => {
+    btn.addEventListener('click', () => renderComments(lessonId, Number(btn.dataset.editComment)));
+  });
+
+  const editForm = listEl.querySelector('[data-edit-form]');
+  if (editForm) {
+    const textarea = editForm.querySelector('textarea');
+    textarea.focus();
+    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+
+    editForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const result = editComment(Number(editForm.dataset.editForm), textarea.value);
+      if (result.ok) renderComments(lessonId);
+      else alert(result.error);
+    });
+    editForm.querySelector('[data-cancel-edit]').addEventListener('click', () => renderComments(lessonId));
   }
 }
 

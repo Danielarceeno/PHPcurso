@@ -26,8 +26,10 @@ npx serve .
 npm test
 ```
 Roda os testes de `tests/` com o test runner nativo do Node (sem dependências;
-requer Node 21+). Cobrem a lógica de `progress.js`, `forum.js` e `content.js`, usando o
-`auth.js` real para criar contas e logar.
+requer Node 21+). Cobrem a lógica de `progress.js`, `forum.js` e `content.js`,
+a integridade do conteúdo em `data.js` e as funções puras de `main.js`, usando
+o `auth.js` real para criar contas e logar. O que depende de DOM (modal, listas,
+página de aula) não é coberto — precisa ser conferido no navegador.
 
 ## Estrutura
 
@@ -40,9 +42,9 @@ js/data.js       conteúdo das 20 aulas
 js/auth.js       contas e sessão simuladas (localStorage, sem backend)
 js/progress.js   progresso do aluno, XP e níveis, por conta
 js/content.js    edições de admin sobre o conteúdo das aulas (overrides)
-js/forum.js      comentários por aula e créditos de participação
+js/forum.js      comentários por aula (postar, editar, excluir) e créditos
 js/main.js       renderização das telas
-assets/          favicon
+assets/          favicon (SVG próprio + PNG de reserva)
 tests/           testes automatizados (node --test)
 TEAM_NOTES.md    histórico de decisões de arquitetura e design
 QA_CHECKLIST.md  checklist de aceite da v1 (registro histórico)
@@ -66,6 +68,7 @@ Tudo fica no `localStorage` do navegador — não há backend:
   `admin` / `corephp123`.
 - `corephp:progress:<conta>` — aulas concluídas, XP e créditos, por conta.
 - `corephp:comments` — comentários, compartilhados entre as contas do navegador.
+  O autor edita e exclui o próprio comentário; o admin exclui qualquer um.
 - `corephp:contentOverrides` — edições feitas pelo admin (explicação/vídeo).
 
 Limpar os dados do site (ou usar outro navegador/dispositivo) reseta tudo — é
