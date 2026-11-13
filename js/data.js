@@ -22,7 +22,7 @@ por trás de sites como WordPress, Wikipedia e boa parte da internet.`,
 echo "Olá, mundo! Este é o meu primeiro código em PHP.";
 `,
     challenge: 'Troque o texto do echo para uma frase se apresentando, com seu nome.',
-    video_url: 'https://drive.google.com/file/d/1r2NLbr93jvCMq_emU13Ux93A2pVXnn6s/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1-nMbAkVardfDDx-I68qFKfLSjUxjF7ji/view?usp=sharing',
   },
   {
     id: 2,
@@ -91,7 +91,7 @@ $idade = $idade + 1;
 echo "Ano que vem: " . $idade . PHP_EOL;
 `,
     challenge: 'Crie uma variável $cidade com o nome da sua cidade e exiba-a com echo.',
-    video_url: 'https://drive.google.com/file/d/1Mc-lfn3yt3Jz7TaI_JhlcxSbI3Hl0Iji/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1_iZcLYCWpElpiIHli8wdXsr0K60fmxaW/view?usp=sharing',
   },
   {
     id: 5,
@@ -117,7 +117,7 @@ echo gettype($ativo) . PHP_EOL;
 echo gettype($lista) . PHP_EOL;
 `,
     challenge: 'Crie uma variável com o seu tipo favorito e imprima o resultado de gettype() dela.',
-    video_url: 'https://drive.google.com/file/d/1_ZWe5EOoTK-DPJMkQFCSUnfaGS5MnSYp/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1I_FvrrFP2B67KYCJy_slhdkQqMrQ4ImE/view?usp=sharing',
   },
   {
     id: 6,
@@ -152,7 +152,7 @@ $saldo -= 30; // o mesmo que $saldo = $saldo - 30;
 echo "Depois do saque: " . $saldo . PHP_EOL;
 `,
     challenge: 'Calcule a área de um retângulo de base 5 e altura 8 usando o operador *, depois use += para somar 10 ao resultado.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1ubShLiSiaBMryvp_wWlTOpFRTcnJqmOB/view?usp=sharing',
   },
 
   // ---------------- DIA 3 ----------------
@@ -183,7 +183,7 @@ $preco /= 4; // dividido em 4 parcelas
 echo "Valor de cada parcela: " . $preco . PHP_EOL;
 `,
     challenge: 'Simule o carrinho de uma loja: comece com $total = 0 e use += para somar o preço de 3 produtos diferentes.',
-    video_url: 'https://drive.google.com/file/d/14Q-e8Tk8HBlwW63i3XSveUVmhfY_j1j-/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1l5srfNqkU_1M0mRhnSjfMaJu4t_vcxBX/view?usp=sharing',
   },
   {
     id: 8,
@@ -205,7 +205,7 @@ var_dump($idade <= 18);     // true
 var_dump($idade != 20);     // true
 `,
     challenge: 'Compare duas variáveis com === e explique em um comentário por que o resultado deu true ou false.',
-    video_url: 'https://drive.google.com/file/d/157DQBmesGCg-MGVuiL4YOS1fkuLr5aWH/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1t-XOE5p3kpp_UpwCzTTjO1NWDhVCBTWL/view?usp=sharing',
   },
   {
     id: 9,
@@ -229,7 +229,7 @@ echo "Está de folga? " . ($feriadoOuFimDeSemana ? "sim" : "não") . PHP_EOL;
 echo "Negação: " . (!$temIngresso ? "sem ingresso" : "com ingresso") . PHP_EOL;
 `,
     challenge: 'Crie uma condição que só é verdadeira se a pessoa for maior de idade E tiver carteira de motorista.',
-    video_url: 'https://drive.google.com/file/d/1uAMPMD6LDwW4FO0XyupeQpg1hrv2ZLcL/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1vb4AktsXsshIkhX60U3HxDS31j1J-gBm/view?usp=sharing',
   },
 
   // ---------------- DIA 4 ----------------
@@ -254,7 +254,7 @@ if ($nota >= 7) {
 }
 `,
     challenge: 'Escreva um if/else que diga se um número é par ou ímpar (dica: use o operador %).',
-    video_url: 'https://drive.google.com/file/d/14hDgqcTeST0RZXqnX51D5kbn4Ia8RTkC/view?usp=sharing',
+    video_url: 'https://drive.google.com/file/d/1Oh8b381k6fYD8vBD2ZNgBn8VnPQ3V0km/view?usp=sharing',
   },
   {
     id: 11,
@@ -284,7 +284,7 @@ switch ($diaDaSemana) {
 }
 `,
     challenge: 'Adicione os cases para quinta, sexta, sábado e domingo.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/162BQJUQepc0wXpH-IlEHXYLWrYRNLT79/view?usp=sharing',
   },
 
   // ---------------- DIA 5 ----------------
@@ -307,7 +307,7 @@ $frutas[] = "uva"; // adiciona um novo item ao final
 echo "Total de frutas: " . count($frutas) . PHP_EOL;
 `,
     challenge: 'Crie um array com 3 filmes favoritos e exiba o segundo item dele.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1u5td9aoG8MTnmeAAN6SV5UuciCItWX5X/view?usp=sharing',
   },
   {
     id: 13,
@@ -331,7 +331,7 @@ $aluno["idade"] = 23; // atualizando um valor existente
 echo "Novo valor: " . $aluno["idade"] . PHP_EOL;
 `,
     challenge: 'Crie um array associativo para um produto com "nome" e "preco", depois exiba os dois valores.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1z0XzoAWwbPgN2BgLJ6CG7ArTWauH8mGD/view?usp=sharing',
   },
 
   // ---------------- DIA 6 ----------------
@@ -350,7 +350,7 @@ for ($i = 1; $i <= 5; $i++) {
 }
 `,
     challenge: 'Use um for para exibir apenas os números pares entre 1 e 10.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/18_lDSe77ss2ud2W59yc3e8FG7TsBtcMC/view?usp=sharing',
   },
   {
     id: 15,
@@ -375,7 +375,7 @@ do {
 } while ($numero < 10); // roda uma vez mesmo com a condição falsa
 `,
     challenge: 'Escreva um while que soma os números de 1 a 10 e imprime o total no final.',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1M3LE0Q_Dy3lNr-bW1iN7TDXcvfM1hWd-/view?usp=sharing',
   },
   {
     id: 16,
@@ -400,7 +400,7 @@ foreach ($aluno as $chave => $valor) {
 }
 `,
     challenge: 'Use foreach para somar todos os números de um array [4, 8, 15, 16, 23].',
-    video_url: null,
+    video_url: 'https://drive.google.com/file/d/1qltoDirL2zkN39fr8JPhXlP9awEP4i77/view?usp=sharing',
   },
 
   // ---------------- DIA 7 ----------------
