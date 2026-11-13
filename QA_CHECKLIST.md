@@ -5,8 +5,7 @@
 > `README.md` e a seção 10 do `TEAM_NOTES.md`. O que mudou desde então e torna
 > alguns itens abaixo desatualizados:
 >
-> - **Vídeos:** as aulas 1 a 16 já têm vídeo (player embutido do Google Drive);
->   só as aulas 17 a 20 ainda mostram "Vídeo em breve". Os itens que dizem que
+> - **Vídeos:** as 20 aulas já têm vídeo (player embutido do Google Drive). Os itens que dizem que
 >   todas as 20 têm `video_url: null` valiam só na v1.
 > - **Login:** hoje existe login simulado com contas. Marcar aula como
 >   concluída e comentar exigem estar logado, e o progresso/XP é por conta —

@@ -918,6 +918,15 @@ pre.code-block {
   transform-origin: top left;
 }
 
+/* Aula com vídeo em mais de uma parte: rótulo acima de cada player. */
+.video-part-label {
+  margin: 22px 0 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.video-part-label:first-child { margin-top: 0; }
+
 .video-placeholder.video-link a {
   color: var(--accent-purple);
   font-weight: 600;

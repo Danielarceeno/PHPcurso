@@ -61,6 +61,25 @@ test('video_url é null ou uma URL https', () => {
   }
 });
 
+test('extra_videos, quando existe, lista partes com rótulo e URL https', () => {
+  const { lessons } = loadData();
+  for (const lesson of lessons) {
+    if (lesson.extra_videos === undefined) continue;
+    assert.ok(lesson.video_url, `aula ${lesson.id}: extra_videos sem video_url (parte 1)`);
+    assert.ok(lesson.extra_videos.length > 0, `aula ${lesson.id}: extra_videos vazio`);
+    for (const part of lesson.extra_videos) {
+      assert.ok(part.label.trim().length > 0, `aula ${lesson.id}: parte sem rótulo`);
+      assert.match(part.url, /^https:\/\/\S+$/, `aula ${lesson.id}: URL de parte inválida`);
+    }
+  }
+});
+
+test('nenhum vídeo é usado em mais de uma aula', () => {
+  const { lessons } = loadData();
+  const urls = lessons.flatMap((l) => [l.video_url, ...(l.extra_videos || []).map((p) => p.url)]).filter(Boolean);
+  assert.equal(new Set(urls).size, urls.length);
+});
+
 test('getLessonById aceita número ou texto e devolve undefined se não existir', () => {
   const { app } = loadData();
   assert.equal(app.getLessonById(3).id, 3);

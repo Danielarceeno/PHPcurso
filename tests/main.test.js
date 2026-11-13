@@ -80,6 +80,24 @@ test('toda aula com vídeo em data.js vira um player embutido do Drive', () => {
   }
 });
 
+test('renderLessonVideos mostra um player por parte, com rótulo, só quando há partes extras', () => {
+  const app = createApp();
+  const url = (id) => `https://drive.google.com/file/d/${id}/view?usp=sharing`;
+
+  const single = app.renderLessonVideos({ video_url: url('AAA') });
+  assert.equal(single, app.renderVideoPlaceholder(url('AAA')));
+  assert.doesNotMatch(single, /video-part-label/);
+
+  const parts = app.renderLessonVideos({
+    video_url: url('AAA'),
+    extra_videos: [{ label: 'Parte <2>', url: url('BBB') }],
+  });
+  assert.equal(parts.match(/<iframe /g).length, 2);
+  assert.match(parts, /Parte 1<\/h3>[\s\S]*\/d\/AAA\/preview[\s\S]*Parte &lt;2&gt;<\/h3>[\s\S]*\/d\/BBB\/preview/);
+
+  assert.match(app.renderLessonVideos({ video_url: null }), /Vídeo em breve/);
+});
+
 test('getNextLessonId devolve a primeira aula pendente, na ordem da trilha', () => {
   const app = createApp();
   app.register('Daniel', 'senha123');

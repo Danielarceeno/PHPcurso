@@ -355,6 +355,21 @@ function renderVideoPlaceholder(videoUrl) {
 }
 
 /**
+ * Vídeo(s) de uma aula. Quase todas têm um só (`video_url`); quando a
+ * gravação foi dividida, as outras partes vêm em `extra_videos` e cada player
+ * ganha um rótulo ("Parte 1", "Parte 2"...).
+ */
+function renderLessonVideos(lesson) {
+  const extras = Array.isArray(lesson.extra_videos) ? lesson.extra_videos : [];
+  if (!lesson.video_url || extras.length === 0) {
+    return renderVideoPlaceholder(lesson.video_url);
+  }
+  return [{ label: 'Parte 1', url: lesson.video_url }, ...extras]
+    .map((part) => `<h3 class="video-part-label">${escapeHtml(part.label)}</h3>${renderVideoPlaceholder(part.url)}`)
+    .join('');
+}
+
+/**
  * Escapa uma string para uso seguro tanto em texto quanto dentro de atributos
  * HTML delimitados por aspas (ex: `src="${escapeHtml(url)}"`). A técnica
  * anterior (textContent -> innerHTML) escapava `< > &` mas NÃO escapava `"`,
@@ -548,7 +563,7 @@ function initLessonPage() {
 
     <section class="lesson-section">
       <h2>Vídeo da aula${admin ? '<button type="button" class="admin-edit-btn" id="edit-video-btn">✏️ Editar vídeo</button>' : ''}</h2>
-      <div id="video-display">${renderVideoPlaceholder(lesson.video_url)}</div>
+      <div id="video-display">${renderLessonVideos(lesson)}</div>
     </section>
 
     ${renderWelcomePost(lesson)}

@@ -59,6 +59,10 @@ Em `js/data.js`, troque `video_url: null` pela URL do vídeo na aula desejada.
 Aceita link de arquivo do Google Drive (vira player embutido), link de pasta do
 Drive (vira um link para abrir em outra aba) ou URL direta de vídeo.
 
+Se a gravação da aula foi dividida, `video_url` é a parte 1 e as demais partes
+vão em `extra_videos: [{ label: 'Parte 2', url: '...' }]` — cada player aparece
+com o seu rótulo. Hoje nenhuma aula usa isso: as 20 aulas têm um vídeo cada.
+
 ## Login e dados
 
 Tudo fica no `localStorage` do navegador — não há backend:

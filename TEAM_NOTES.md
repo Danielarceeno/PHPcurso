@@ -16,10 +16,31 @@ Cada seção representa o papel assumido e o que foi decidido/entregue.
 > - a seção recolhível e o aviso "ATENÇÃO" do post de cada aula (5.2/5.3);
 > - "streak", busca no header, cards de aula com hover e o cursor piscante no
 >   título da lista (seções 1 e 2) — planejados ou removidos, não estão no código;
-> - `video_url: null` em todas as aulas (as aulas 1 a 16 já têm vídeo);
+> - `video_url: null` em todas as aulas (as 20 aulas já têm vídeo);
 > - as contagens de linhas citadas na seção 6.
 >
 > Para o estado atual, veja o `README.md` e a seção 10 abaixo.
+
+## 11. Vídeos editados nas 20 aulas e conteúdo alinhado às gravações
+
+- **Um vídeo por aula (decisão do usuário):** a pasta do Drive tem 20
+  gravações editadas — as aulas 1 a 19 da numeração original, com a aula 6
+  dividida em duas partes. A parte 2 virou a **aula 7** do site, tudo o que
+  vinha depois andou uma posição (o vídeo `Aula-07` é a aula 8, ... o vídeo
+  `Aula-19`, datas, é a aula 20) e a antiga aula 20 (formulários, sem
+  gravação) **foi removida**. Consequência conhecida: a partir da aula 8 o
+  número dito no vídeo/slide é um a menos que o do site.
+- **Progresso já salvo:** as aulas concluídas ficam guardadas por id, então
+  quem tinha marcado aulas de 7 em diante vê a marca na aula de mesmo número,
+  que agora tem outro conteúdo.
+- **`extra_videos`:** `renderLessonVideos` (`js/main.js`) aceita aula com mais
+  de um vídeo, mas nenhuma aula usa isso hoje.
+- **Conteúdo:** título, resumo, explicação, exemplo e desafio foram reescritos
+  a partir dos slides/transcrições das gravações (XAMPP + htdocs na aula 2,
+  constantes na 4, `null` e `var_dump` na 5, `++`/`--` na 6, calculadora na 7,
+  potência e ordem das operações na 8, `array_key_exists` na 14,
+  `echo` × `return` na 18, `ucwords`/`strpos` na 19, `DateTime` na 20).
+  Os exemplos novos **não foram executados** nesta rodada (sem PHP na máquina).
 
 ## 10. Segunda auditoria, comentários do próprio autor e limpeza
 
