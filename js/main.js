@@ -195,7 +195,7 @@ function renderContinueCard() {
     el.innerHTML = `
       <div class="continue-info">
         <span class="continue-eyebrow">Curso concluído</span>
-        <span class="continue-title">Você terminou as 20 aulas. Bom trabalho!</span>
+        <span class="continue-title">Você terminou as ${LESSONS.length} aulas. Bom trabalho!</span>
       </div>
       <a class="continue-btn" href="aula.html?id=1">Revisar aula 1 →</a>`;
     return;
@@ -250,10 +250,11 @@ function initLessonsPage() {
     .join('');
 
   // `initLessonsPage()` é chamada de novo a cada toggle (para re-renderizar a
-  // lista). Sem esta guarda, os listeners abaixo seriam anexados de novo a
-  // cada chamada — como ficam presos ao `container` (que nunca é recriado,
-  // só o innerHTML dele), eles se acumulariam e cada clique futuro dispararia
-  // o toggle múltiplas vezes.
+  // lista). Sem esta guarda, o listener abaixo seria anexado de novo a
+  // cada chamada — como fica preso ao `container` (que nunca é recriado,
+  // só o innerHTML dele), ele se acumularia e cada clique futuro dispararia
+  // o toggle múltiplas vezes. Não há listener de teclado: o círculo é um
+  // <button> nativo, que já dispara `click` com Enter/Espaço.
   if (!container.dataset.listenersBound) {
     container.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-toggle]');
@@ -270,15 +271,6 @@ function initLessonsPage() {
       renderHeaderStats();
       renderProgressSummary();
       renderContinueCard();
-    });
-
-    container.addEventListener('keydown', (e) => {
-      const btn = e.target.closest('[data-toggle]');
-      if (!btn) return;
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        btn.click();
-      }
     });
 
     container.dataset.listenersBound = 'true';
@@ -608,7 +600,6 @@ function initLessonPage() {
     toggleLesson(lesson.id);
     updateCompleteButton();
     renderHeaderStats();
-    renderContinueCard();
 
     const progressEl = document.getElementById('post-progress-count');
     if (progressEl) progressEl.textContent = getDayProgress(lesson.day).done;
