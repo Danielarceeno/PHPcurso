@@ -28,9 +28,9 @@ class MemoryLocalStorage {
 const JS_DIR = path.join(__dirname, '..', '..', 'js');
 
 /**
- * Carrega auth.js, progress.js e forum.js (código real do app, sem
- * reimplementar a lógica) num sandbox de vm com localStorage mockado, e
- * devolve o contexto com todas as funções globais que eles definem
+ * Carrega data.js, auth.js, progress.js, content.js e forum.js (código real
+ * do app, sem reimplementar a lógica) num sandbox de vm com localStorage
+ * mockado, e devolve o contexto com todas as funções globais que eles definem
  * (login, register, getSession, completeLesson, postComment, etc.).
  */
 function createApp() {
@@ -40,7 +40,7 @@ function createApp() {
   };
   vm.createContext(context);
 
-  for (const file of ['auth.js', 'progress.js', 'forum.js']) {
+  for (const file of ['data.js', 'auth.js', 'progress.js', 'content.js', 'forum.js']) {
     const code = fs.readFileSync(path.join(JS_DIR, file), 'utf8');
     vm.runInContext(code, context, { filename: file });
   }

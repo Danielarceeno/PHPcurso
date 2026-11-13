@@ -163,9 +163,9 @@ echo "Depois do saque: " . $saldo . PHP_EOL;
     summary: 'Mais exemplos praticando os operadores da aula anterior.',
     explanation: `Esta aula é uma continuação direta da aula anterior: em vez de
 conteúdo novo, é hora de praticar mais os operadores matemáticos e de
-atribuição com exemplos aplicados. Assista ao material complementar
-(link abaixo) para ver outras situações do dia a dia resolvidas com esses
-operadores antes de seguir para os operadores de comparação.`,
+atribuição com exemplos aplicados. Assista ao vídeo da aula (logo abaixo)
+para ver outras situações do dia a dia resolvidas com esses operadores antes
+de seguir para os operadores de comparação.`,
     code: `<?php
 
 // Praticando operadores de atribuição em sequência
@@ -435,18 +435,25 @@ echo "Soma: " . somar(4, 6) . PHP_EOL;
     day: 7,
     title: 'Manipulação básica de strings',
     summary: 'Funções úteis para trabalhar com texto.',
-    explanation: `PHP tem várias funções prontas para strings: "strlen()" conta
-caracteres, "strtoupper()"/"strtolower()" mudam a caixa das letras, "str_replace()"
-troca trechos de texto, e "trim()" remove espaços das pontas.`,
+    explanation: `PHP tem várias funções prontas para strings: "strlen()" diz o
+tamanho do texto, "strtoupper()"/"strtolower()" mudam a caixa das letras,
+"str_replace()" troca trechos de texto, e "trim()" remove espaços das pontas.
+
+Um detalhe importante: "strlen()" conta bytes, não letras. Letras sem acento
+ocupam 1 byte cada, mas letras acentuadas (como "é" e "ó") ocupam 2 — por isso
+o exemplo abaixo usa uma frase sem acentos. Para textos com acento existem as
+versões "mb_strlen()" e "mb_strtoupper()", que contam e convertem letra por
+letra.`,
     code: `<?php
 
-$frase = "  Aprender PHP é ótimo  ";
+$frase = "  Aprender PHP vale a pena  ";
 
-echo strlen($frase) . PHP_EOL;
+echo strlen($frase) . PHP_EOL;        // 28 (conta também os espaços das pontas)
+echo strlen(trim($frase)) . PHP_EOL;  // 24
 echo strtoupper($frase) . PHP_EOL;
 echo strtolower($frase) . PHP_EOL;
 echo trim($frase) . PHP_EOL;
-echo str_replace("ótimo", "divertido", trim($frase)) . PHP_EOL;
+echo str_replace("Aprender", "Praticar", trim($frase)) . PHP_EOL;
 `,
     challenge: 'Use str_replace para trocar uma palavra da frase "Eu gosto de JavaScript" para "PHP".',
     video_url: null,
@@ -481,23 +488,30 @@ echo "Amanhã: " . date("d/m/Y", $amanha) . PHP_EOL;
     explanation: `Quando um formulário HTML é enviado com method="post", os dados
 chegam no PHP através da variável superglobal "$_POST", um array associativo
 onde a chave é o "name" de cada campo do formulário. Para method="get", os
-dados chegam em "$_GET".`,
+dados chegam em "$_GET".
+
+Regra de ouro: nunca exiba direto na página um texto que veio do usuário.
+Passe antes por "htmlspecialchars()", que transforma caracteres como "<" e ">"
+em texto inofensivo — sem isso, alguém poderia digitar código HTML/JavaScript
+no formulário e ele seria executado na sua página.`,
     code: `<?php
-// Supondo um formulário HTML com:
-// <input type="text" name="nome">
-// <input type="email" name="email">
+// Supondo um formulário HTML assim:
 // <form method="post">
+//   <input type="text" name="nome">
+//   <input type="email" name="email">
+// </form>
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nome  = $_POST["nome"]  ?? "";
     $email = $_POST["email"] ?? "";
 
-    echo "Recebido: " . $nome . " (" . $email . ")" . PHP_EOL;
+    // htmlspecialchars() deixa o texto seguro para ser exibido na página
+    echo "Recebido: " . htmlspecialchars($nome) . " (" . htmlspecialchars($email) . ")" . PHP_EOL;
 } else {
     echo "Aguardando envio do formulário." . PHP_EOL;
 }
 `,
-    challenge: 'Monte um formulário HTML simples com um campo "idade" e imprima o valor recebido em $_POST.',
+    challenge: 'Monte um formulário HTML simples com um campo "idade" e imprima o valor recebido em $_POST usando htmlspecialchars().',
     video_url: null,
   },
 ];

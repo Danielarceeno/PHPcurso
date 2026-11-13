@@ -34,6 +34,29 @@ function saveContentOverride(lessonId, patch) {
   }
 }
 
+/** Diz se o campo (ex: 'explanation', 'video_url') da aula está editado. */
+function hasContentOverride(lessonId, field) {
+  const override = getContentOverrides()[lessonId];
+  return !!override && Object.prototype.hasOwnProperty.call(override, field);
+}
+
+/**
+ * Descarta a edição de admin de um campo, voltando a valer o conteúdo de
+ * js/data.js. Sem isto, uma edição antiga esconderia para sempre qualquer
+ * atualização posterior feita em data.js naquele navegador.
+ */
+function clearContentOverride(lessonId, field) {
+  const all = getContentOverrides();
+  if (!all[lessonId]) return;
+  delete all[lessonId][field];
+  if (Object.keys(all[lessonId]).length === 0) delete all[lessonId];
+  try {
+    localStorage.setItem(CONTENT_OVERRIDES_KEY, JSON.stringify(all));
+  } catch (e) {
+    // localStorage cheio/bloqueado: falha silenciosamente.
+  }
+}
+
 /**
  * Retorna a aula com as edições de admin já aplicadas por cima do conteúdo
  * original de js/data.js.

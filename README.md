@@ -26,7 +26,7 @@ npx serve .
 npm test
 ```
 Roda os testes de `tests/` com o test runner nativo do Node (sem dependências;
-requer Node 21+). Cobrem a lógica de `progress.js` e `forum.js`, usando o
+requer Node 21+). Cobrem a lógica de `progress.js`, `forum.js` e `content.js`, usando o
 `auth.js` real para criar contas e logar.
 
 ## Estrutura

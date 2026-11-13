@@ -1,8 +1,8 @@
 /**
  * main.js — renderização compartilhada: header (XP/créditos/login), lista de
- * aulas e página individual de aula. Depende de data.js, progress.js,
- * auth.js e content.js (e forum.js nas páginas de aula) já carregados antes
- * deste arquivo.
+ * aulas e página individual de aula. Depende de data.js, progress.js e
+ * auth.js (e, só na página de aula, também content.js e forum.js) já
+ * carregados antes deste arquivo.
  */
 
 const CHECK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
@@ -425,7 +425,7 @@ function renderWelcomePost(lesson) {
   const title = isFirst ? 'Bem-vindo(a)!' : `Sobre esta aula: ${escapeHtml(lesson.title)}`;
 
   const bodyHtml = isFirst
-    ? `<p>Seja muito bem-vindo(a) ou bem-vinda à primeira aula do <strong>core.php</strong>! 🎉🤝👍</p>
+    ? `<p>Seja muito bem-vindo(a) à primeira aula do <strong>core.php</strong>! 🎉🤝👍</p>
        <p>Esta primeira aula serve para você:</p>
        <ol>
          <li><strong>Aquecer os motores</strong></li>
@@ -518,7 +518,7 @@ function initLessonPage() {
 
     <section class="lesson-section forum-section">
       <h2>Comentários desta aula</h2>
-      <p class="forum-hint">Visíveis só aqui, em "${escapeHtml(lesson.title)}". Comentar rende 1 ponto de participação no fórum.</p>
+      <p class="forum-hint">Visíveis só aqui, em "${escapeHtml(lesson.title)}". Cada comentário usa 1 crédito de fórum, devolvido na hora.</p>
       ${
         getSession()
           ? `<form id="comment-form" class="comment-form">
@@ -550,6 +550,17 @@ function initLessonPage() {
   }
   updateCompleteButton();
 
+  // "Restaurar original": descarta a edição de admin daquele campo e volta a
+  // exibir o conteúdo de js/data.js. O botão só existe se houver edição.
+  function bindRestoreButton(buttonId, field) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      clearContentOverride(lesson.id, field);
+      initLessonPage();
+    });
+  }
+
   if (admin) {
     const editExplanationBtn = document.getElementById('edit-explanation-btn');
     if (editExplanationBtn) {
@@ -560,8 +571,10 @@ function initLessonPage() {
             <div class="admin-edit-actions">
               <button type="button" class="save-btn" id="save-explanation-btn">Salvar</button>
               <button type="button" class="cancel-btn" id="cancel-explanation-btn">Cancelar</button>
+              ${hasContentOverride(lesson.id, 'explanation') ? '<button type="button" class="cancel-btn" id="restore-explanation-btn">Restaurar original</button>' : ''}
             </div>
           </div>`;
+        bindRestoreButton('restore-explanation-btn', 'explanation');
         document.getElementById('save-explanation-btn').addEventListener('click', () => {
           const newText = document.getElementById('explanation-edit-area').value;
           saveContentOverride(lesson.id, { explanation: newText });
@@ -580,8 +593,10 @@ function initLessonPage() {
             <div class="admin-edit-actions">
               <button type="button" class="save-btn" id="save-video-btn">Salvar</button>
               <button type="button" class="cancel-btn" id="cancel-video-btn">Cancelar</button>
+              ${hasContentOverride(lesson.id, 'video_url') ? '<button type="button" class="cancel-btn" id="restore-video-btn">Restaurar original</button>' : ''}
             </div>
           </div>`;
+        bindRestoreButton('restore-video-btn', 'video_url');
         document.getElementById('save-video-btn').addEventListener('click', () => {
           const newUrl = document.getElementById('video-url-edit').value.trim();
           saveContentOverride(lesson.id, { video_url: newUrl || null });
